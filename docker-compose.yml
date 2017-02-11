@@ -4,17 +4,11 @@ services:
     image: busybox
     volumes:
       - /box
-  db:
-    image: postgres:9.4.1
-    ports:
-      - "5432:5432"
   web:
     build: .
-    command: ./script/start.sh
+    command: rackup -p 3000
     ports:
       - "3000:3000"
-    links:
-      - db
     volumes_from:
       - box
     volumes:
