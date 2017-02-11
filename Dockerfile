@@ -10,8 +10,6 @@ RUN apt-get install -y \
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
 
-ENV BUNDLE_PATH /box
-
 COPY Gemfile* /usr/src/app/
 RUN bundle install
 
