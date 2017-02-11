@@ -1,0 +1,18 @@
+<tr class="remove-emoji-link" data-id="<%= id %>">
+  <td>
+    <img src="<%= url %>" style="width: 32px; height: 32px;" />
+    <input type="hidden" name="emojis[<%= id %>][name]" value="<%= name %>" />
+    <input type="hidden" name="emojis[<%= id %>][url]" value="<%= url %>" />
+  </td>
+  <td>
+    <%= name %>
+  </td>
+  <td>
+    <input type="text" name="emojis[<%= id %>][mapping]" placeholder="<%= name %>" />
+  </td>
+  <td>
+    <button type="button" class="ui negative circular icon button" data-id="<%= id %>">
+      <i class="remove icon"></i>
+    </button>
+  </td>
+</tr>

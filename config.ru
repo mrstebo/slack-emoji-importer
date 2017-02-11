@@ -1,5 +1,5 @@
-# This file is used by Rack-based servers to start the application.
-
-require_relative 'config/environment'
-
-run Rails.application
+$:.unshift File.expand_path('../', __FILE__)
+require 'rubygems'
+require 'sinatra'
+require './app'
+run Sinatra::Application

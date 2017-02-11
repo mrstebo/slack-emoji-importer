@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Slack Emoji Importer</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css">
+  </head>
+  <body>
+    <div class="ui padded grid">
+      <div class="twelve wide column">
+        <div class="ui tiny images">
+          <% emojis.each do |emoji| %>
+          <a class="emoji-link" href="#" data-id="<%= emoji.id %>" data-name="<%= emoji.name %>" data-url="<%= emoji.url %>" data-content="<%= emoji.name %>" data-variation="inverted">
+            <img src="<%= emoji.url %>" alt="<%= emoji.name %>" style="width: 64px; height: 64px;">
+          </a>
+          <% end %>
+        </div>
+      </div>
+      <div class="four wide column">
+        <form id="selectionForm" class="ui segments">
+          <div class="ui segment">
+            <h2 class="ui header">
+              <i class="slack icon"></i>
+              <div class="content">
+                Slack Emoji Importer
+                <div class="sub header">
+                  Built by <a href="https://github.com/mrstebo">mrstebo</a>
+                </div>
+              </div>
+            </h2>
+          </div>
+          <div class="ui form segment">
+            <div class="field">
+              <label for="team_name">Team Name</label>
+              <input type="text" name="team_name" />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" name="email" />
+            </div>
+            <div class="field">
+              <label for="password">Password</label>
+              <input type="password" name="password" />
+            </div>
+          </div>
+          <div class="ui form segment" method="post">
+            <table id="selection" class="ui very basic table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Name</th>
+                  <th>New Name</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+            <div class="ui divider"></div>
+            <button type="submit" name="button" class="ui fluid primary button">
+              Import
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+    <script>
+      $('.emoji-link').on('mouseover', function(e) {
+        console.log($(e.target).parent().data('name'));
+      });
+    </script>
+    <script>
+      $('.emoji-link').on('click', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+          url: '/emoji',
+          type: 'PUT',
+          data: $(e.target).parent().data(),
+          success: function(data) {
+            $('#selection tbody').append($(data));
+            $(e.target).parent().hide();
+          },
+          error: function(xhr) {
+            console.error(xhr);
+          }
+        });
+      });
+
+      $('#selection').on('click', '.remove-emoji-link', function(e) {
+        var id = $(e.target).parent().data('id');
+        $('.emoji-link[data-id="' + id + '"]').show();
+        $('.remove-emoji-link[data-id="' + id + '"]').remove();
+      });
+
+      $('#selectionForm').submit(function(e) {
+        e.preventDefault();
+        $('#selectionForm button[type="submit"]').addClass('loading');
+        $.ajax({
+          url: '/import',
+          type: 'POST',
+          data: $(e.target).serializeArray(),
+          success: function(data) {
+            $('#selectionForm button[type="submit"]').removeClass('loading');
+            $('#selection tbody').empty();
+          },
+          error: function(xhr) {
+            $('#selectionForm button[type="submit"]').removeClass('loading');
+            console.error(xhr);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
