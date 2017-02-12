@@ -25,10 +25,12 @@ post '/import' do
   email = params[:email]
   password = params[:password]
   emojis = EmojiParamParser.parse(params)
-  session = SessionBuilder.create(team_name, email, password)
-  importer = Importer.new(session)
-  emojis.each do |emoji|
-    importer.import(emoji)
+
+  SessionBuilder.create(team_name, email, password) do |session|
+    importer = Importer.new(session)
+    emojis.each do |emoji|
+      importer.import(emoji)
+    end
   end
   content_type :json
   {

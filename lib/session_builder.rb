@@ -15,6 +15,7 @@ class SessionBuilder
       session.fill_in 'Password', with: password
       session.click_on 'Sign in'
     end
-    session
+    yield session
+    session.driver.quit
   end
 end
