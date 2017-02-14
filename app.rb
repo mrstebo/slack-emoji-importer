@@ -8,7 +8,7 @@ require 'erb'
 Dir["lib/**/*.rb"].each {|file| require_relative file}
 
 get '/' do
-  slackmoji = Slackmoji.new
+  slackmoji = EmojiSources::Slackmoji.new
   erb :index, locals: {emojis: slackmoji.emojis}
 end
 
