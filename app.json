@@ -12,7 +12,11 @@
   ],
   "buildpacks": [
     {
+<<<<<<< master
       "url": "https://github.com/heroku/heroku-buildpack-ruby.git#v203"
+=======
+      "url": "heroku/ruby"
+>>>>>>> Updated the Heroku buildpack.
     }
   ]
 }
