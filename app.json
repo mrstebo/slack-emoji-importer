@@ -12,7 +12,7 @@
   ],
   "buildpacks": [
     {
-      "url": "heroku/heroku-buildpack-ruby"
+      "url": "heroku/ruby"
     }
   ]
 }
