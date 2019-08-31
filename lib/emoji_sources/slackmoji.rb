@@ -12,11 +12,12 @@ module EmojiSources
       @groups ||= home_page.search('li.group').map do |group|
         group_name = group.search('.title').first.text.strip
         emojis = group.search('.emoji').map do |emoji|
+          id = SecureRandom.hex
           name = emoji.text.strip
           link = emoji.search('.downloader').first
           command = link.text.strip
           url = link.attributes['href'].value
-          Emoji.new(group_name, name, command, url)
+          Emoji.new(group_name, id, name, command, url)
         end
         EmojiGroup.new(group_name, emojis)
       end

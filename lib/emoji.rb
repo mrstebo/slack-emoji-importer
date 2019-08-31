@@ -1,2 +1,2 @@
-class Emoji < Struct.new(:category, :name, :command, :url)
+class Emoji < Struct.new(:category, :id, :name, :command, :url)
 end
